@@ -1,0 +1,93 @@
+<script>
+
+window.Things = window.Things || {};
+var instances = [];
+var dataGlobal = {};
+
+Things.GlobalBehavior = {
+
+  properties: {
+    globals: {
+      type: Object,
+      notify: true,
+      value: dataGlobal
+    }
+  },
+
+  ready: function() {
+    var _setOrig = this.set;
+    var _notifyPathOrig = this.notifyPath;
+
+    this.set = function() {
+      _setOrig.apply(this, arguments);
+
+      if (arguments[0].split(".")[0] === "globals") {
+        this.invokeInstances(_notifyPathOrig, arguments);
+      }
+    };
+
+    this.notifyPath = function(path, value) {
+      _notifyPathOrig.apply(this, arguments);
+
+      if (arguments[0].split(".")[0] === "globals") {
+        this.invokeInstances(_notifyPathOrig, arguments);
+      }
+    };
+  },
+
+  invokeInstances: function(fn, args) {
+    var i;
+    for (i = 0; i < instances.length; i++) {
+      instance = instances[i];
+      if (instance !== this) {
+        fn.apply(instance, args);
+      }
+    }
+  },
+
+  attached: function() {
+    instances.push(this);
+  },
+
+  detached: function() {
+    var i = instances.indexOf(this);
+    if (i >= 0) {
+      instances.splice(i, 1);
+    }
+  },
+
+  /**
+   * check signed-in
+   */
+  isSignedIn: function() {
+    return this.get('globals.user') ? true : false;
+  },
+
+  /**
+   * ajax 호출 후 에러 발생시 unauthorized 에러이면 로그인 페이지로 이동
+   */
+  handleUnauthorized: function() {
+    this.set('globals.user', null);
+    if(app.$.thingsHeader){
+      app.$.thingsHeader.toggleSidebar();
+    }
+    page('/login');
+    this.showToastMsg("Unauthorized, Signin First Please");
+  },
+
+  /**
+   * message를 toast로 표시한다.
+   * @param {string} msg
+   */
+  showToastMsg: function(msg) {
+    if(typeof(app) !== 'undefined') {
+      app.$.toast.text = msg;
+      app.$.toast.open();
+    }
+  }
+
+};
+</script>
+
+<link rel="import" href="./things-setting.html">
+<link rel="import" href="./things-setting-dialog.html">
