@@ -4,16 +4,31 @@ window.Things = window.Things || {};
 var instances = [];
 var dataGlobal = {};
 
-Things.GlobalBehavior = {
+/**
+ * Global변수의 Set/Get을 Elements를 통하여 접속이 가능하게하는 Behavior이다.
+ * 일부 공통으로 사용되는 Event와 Message처리도 수행한다.
+ *
+ * @polymerBehavior Things.GlobalBehavior
+ * 
+ * @demo demo/index.html
+ */
 
+Things.GlobalBehavior = {
+  
   properties: {
+    /**
+     * GlobalBehavior를 import한 This에 적용되는 동시에 Window 변수인 dataGlobal를 Reference한다.
+     * 모든 GlobalBehavior를 사용한 Elements를 변수 instances에 저장한다. 필요할 경우에 Global변수 instances를 통하여 GlobalBehavior를 사용한 전체 Elements에 대한 변경을 할 수 있다.
+     * 
+     * @type {Object}
+     */
     globals: {
       type: Object,
       notify: true,
       value: dataGlobal
     }
   },
-
+  
   ready: function() {
     var _setOrig = this.set;
     var _notifyPathOrig = this.notifyPath;
@@ -22,10 +37,10 @@ Things.GlobalBehavior = {
       _setOrig.apply(this, arguments);
 
       if (arguments[0].split(".")[0] === "globals") {
-        this.invokeInstances(_notifyPathOrig, arguments);
+        this._invokeInstances(_notifyPathOrig, arguments);
       }
     };
-
+    
     this.notifyPath = function(path, value) {
       _notifyPathOrig.apply(this, arguments);
 
@@ -34,8 +49,8 @@ Things.GlobalBehavior = {
       }
     };
   },
-
-  invokeInstances: function(fn, args) {
+  
+  _invokeInstances: function(fn, args) {
     var i;
     for (i = 0; i < instances.length; i++) {
       instance = instances[i];
@@ -44,11 +59,11 @@ Things.GlobalBehavior = {
       }
     }
   },
-
+  
   attached: function() {
     instances.push(this);
   },
-
+  
   detached: function() {
     var i = instances.indexOf(this);
     if (i >= 0) {
@@ -57,34 +72,29 @@ Things.GlobalBehavior = {
   },
 
   /**
-   * check signed-in
-   */
-  isSignedIn: function() {
-    return this.get('globals.user') ? true : false;
-  },
-
-  /**
-   * ajax 호출 후 에러 발생시 unauthorized 에러이면 로그인 페이지로 이동
-   */
-  handleUnauthorized: function() {
+  * ajax 호출 후 에러 발생시 unauthorized 에러이면 로그인 페이지로 이동 
+  */
+  handleUnauthorized: function(response) {
     this.set('globals.user', null);
-    if(app.$.thingsHeader){
-      app.$.thingsHeader.toggleSidebar();
-    }
+    
+    var eventDetail = {'response':response};
+
+    var event = new CustomEvent('things-unauthorized-session', { 'detail': eventDetail });
+    document.dispatchEvent(event);
+    var defaultPrevented = document.dispatchEvent(event);
+
+    if(defaultPrevented) return;
+
     page('/login');
-    this.showToastMsg("Unauthorized, Signin First Please");
   },
 
   /**
-   * message를 toast로 표시한다.
-   * @param {string} msg
+   * Show toast message
+   * @param msg information
    */
   showToastMsg: function(msg) {
-    if(typeof(app) !== 'undefined') {
-      app.$.toast.text = msg;
-      app.$.toast.open();
-    }
+    document.dispatchEvent(new CustomEvent('things-show-tost', { 'detail': { 'msg': msg } }));
   }
-
+  
 };
 </script>
