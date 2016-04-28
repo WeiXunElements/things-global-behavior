@@ -83,7 +83,7 @@ Things.GlobalBehavior = {
     document.dispatchEvent(event);
     var defaultPrevented = document.dispatchEvent(event);
 
-    if(defaultPrevented) return;
+    if(!defaultPrevented) return;
 
     page('/login');
   },
