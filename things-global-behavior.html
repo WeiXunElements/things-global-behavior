@@ -87,7 +87,12 @@ Things.GlobalBehavior = {
 
     page('/login');
   },
-
+  /**
+   * 로그인 여부를 확인하는 기능
+   */
+  isSignedIn:function () {
+    return this.get('globals.user') ? true : false; 
+  },
   /**
    * Show toast message
    * @param msg information
