@@ -30,6 +30,7 @@ Things.GlobalBehavior = {
 
   /**
    * Life cycle - ready
+   * *******
    */
   ready: function() {
     var _setOrig = this.set;
@@ -65,6 +66,7 @@ Things.GlobalBehavior = {
 
   /**
    * Life cycle - attached
+   * ******
    */
   attached: function() {
     _thingsGlobalBehaviorInstances.push(this);
@@ -80,6 +82,7 @@ Things.GlobalBehavior = {
 
   /**
    * Life cycle - detached
+   * ********
    */
   detached: function() {
     var i = _thingsGlobalBehaviorInstances.indexOf(this);
@@ -90,6 +93,7 @@ Things.GlobalBehavior = {
 
   /**
    * ajax 호출 후 에러 발생시 unauthorized 에러이면 로그인 페이지로 이동
+   * *******
    */
   handleUnauthorized: function(response) {
     this.notifyPath('globals.user', null);
@@ -107,6 +111,7 @@ Things.GlobalBehavior = {
 
   /**
    * 로그인 여부를 확인하는 기능
+   * *******
    */
   isSignedIn:function () {
     return this.get('globals.user') ? true : false;
@@ -114,6 +119,7 @@ Things.GlobalBehavior = {
 
   /**
    * Show toast message
+   * *****
    * @param msg information
    */
   showToastMsg: function(msg) {
