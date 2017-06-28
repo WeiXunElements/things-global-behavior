@@ -88,8 +88,4 @@ And you can run it via:
     polymer serve
 
 Once running, you can preview your element at
-`http://localhost:8080/components/things-date-picker/`, where `things-date-picker` is the name of the directory containing it.
-
-
-## Example 1. Things fullscreen
-`<things-fullscreen>` Things fullscreen
+`http://localhost:8080/components/things-global-behavior/`, where `things-global-behavior` is the name of the directory containing it.
