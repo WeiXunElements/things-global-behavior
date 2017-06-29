@@ -1,8 +1,8 @@
 # things-global-behavior
 
-## Global변수의 Set/Get을 Elements를 통하여 접속이 가능하게하는 Behavior이다.
+## This is a Behavior that makes Set/Get of global variables connectable through Elements.
 
-아래 셈플에서 test-2에서 수정했지만 test-1에서도 감지되어 콘솔에 프린트가 된다.
+In the samples below, we modified it in test-2, but it is also detected in test-1 thus printed on the console.
 
 Example:
 ```html
@@ -65,8 +65,7 @@ Example:
 
 ## Dependencies
 
-Element dependencies are managed via [Bower](http://bower.io/). You can
-install that via:
+Element dependencies are managed via [Bower](http://bower.io/). You can install that via:
 
     npm install -g bower
 
@@ -88,8 +87,4 @@ And you can run it via:
     polymer serve
 
 Once running, you can preview your element at
-`http://localhost:8080/components/things-date-picker/`, where `things-date-picker` is the name of the directory containing it.
-
-
-## Example 1. Things fullscreen
-`<things-fullscreen>` Things fullscreen
+`http://localhost:8080/components/things-global-behavior/`, where `things-global-behavior` is the name of the directory containing it.
