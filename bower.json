@@ -1,22 +1,13 @@
 {
   "name": "things-global-behavior",
-  "version": "v2.2.0",
-  "authors": [
-    "Hatio Lab. <heartyoh@hatiolab.com>"
-  ],
+  "version": "v2.2.1",
+  "authors": ["Hatio Lab. <heartyoh@hatiolab.com>"],
   "description": "An element providing a solution to no problem in particular.",
-  "keywords": [
-    "web-component",
-    "polymer",
-    "seed"
-  ],
+  "keywords": ["web-component", "polymer", "seed"],
   "main": "things-global-behavior.html",
   "license": "http://license.hatiolab.com/EULA",
   "homepage": "http://elements.hatiolab.com/",
-  "ignore": [
-    "/.*",
-    "/test/"
-  ],
+  "ignore": ["/.*", "/test/"],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0"
   },
